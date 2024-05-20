@@ -35,3 +35,8 @@ content-type: application/json
 
 //DELETE Beers
 DELETE  {{host}}/api/beers/3
+
+###
+
+//DELETE all Beers
+DELETE  {{host}}/api/beers

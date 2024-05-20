@@ -70,7 +70,7 @@ router.delete('/:id', (req, res) => {
 //Delete all beers
 router.delete('/', (req, res) => {
     beers.splice(0, beers.length);
-    res.send(beer);
+    res.send(beers);
 });
 
 function validateBeers(beer){
