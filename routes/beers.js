@@ -67,6 +67,12 @@ router.delete('/:id', (req, res) => {
     res.send(beer);
 });
 
+//Delete all beers
+router.delete('/', (req, res) => {
+    beers.splice(0, beers.length);
+    res.send(beer);
+});
+
 function validateBeers(beer){
     const schema = Joi.object({
         name: Joi.string().min(3).required(),
