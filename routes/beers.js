@@ -11,7 +11,7 @@ const beers = [
     {id:6, name: 'Guinness', type: 'Brown'},
 ];
 
-//geef alle beers terug
+//Read beers
 router.get('/', (req, res) => {
     res.send(beers);
 });
@@ -25,7 +25,7 @@ router.get('/:id', (req, res) => {
     res.send(beer);
 })
 
-//post
+//Create Beer
 router.post('/', (req, res) => {
     const result = validateBeers(req.body);
     if (result.error) {
@@ -53,7 +53,18 @@ router.put('/:id', (req, res) => {
     beer.type = req.body.type;
     beers.push(beer);
     res.send(beer);
-    
+
+});
+
+//Delete beer
+router.delete('/:id', (req, res) => {
+    const beer = beers.find(beer => beer.id === parseInt(req.params.id));
+    if (!beer) {
+        res.status(404).send('Beer not found');
+    }
+    const index = beers.indexOf(beer);
+    beers.splice(index, 1);
+    res.send(beer);
 });
 
 function validateBeers(beer){
