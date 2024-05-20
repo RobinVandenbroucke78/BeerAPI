@@ -1,4 +1,5 @@
 const express = require('express');
+const Joi = require('joi');
 const router = express.Router();
 
 const beers = [
@@ -23,3 +24,15 @@ router.get('/:id', (req, res) => {
     }
     res.send(beer);
 })
+
+
+
+function validateBeers(beer){
+    const schema = Joi.object({
+        name: Joi.string().min(3).required(),
+        type: Joi.string().min(3).required()
+    })
+    return schema.validate(beer);
+}
+
+module.exports = router;
