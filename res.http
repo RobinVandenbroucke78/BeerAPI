@@ -3,3 +3,7 @@
 @host = {{hostname}}:{{port}}
 
 GET {{host}}/api/beers
+
+###
+
+GET {{host}}/api/beers/1
