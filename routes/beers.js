@@ -39,6 +39,23 @@ router.post('/', (req, res) => {
     res.send(beer);
 });
 
+//Update beer
+router.put('/:id', (req, res) => {
+    const beer = beers.find(beer => beer.id === parseInt(req.params.id));
+    if (!beer) {
+        res.status(404).send('Beer not found');
+    }
+    const result = validateBeers(req.body);
+    if (result.error) {
+        res.status(400).send(result.error.details[0].message);
+    }
+    beer.name = req.body.name;
+    beer.type = req.body.type;
+    beers.push(beer);
+    res.send(beer);
+    
+});
+
 function validateBeers(beer){
     const schema = Joi.object({
         name: Joi.string().min(3).required(),
