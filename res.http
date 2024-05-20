@@ -2,8 +2,36 @@
 @port = 3000
 @host = {{hostname}}:{{port}}
 
+//READ Beers
 GET {{host}}/api/beers
 
 ###
 
 GET {{host}}/api/beers/1
+
+###
+
+//CREATE Beers
+POST {{host}}/api/beers
+content-type: application/json
+
+{
+    "name": "Jupiler",
+    "type": "Blond"
+}
+
+###
+
+//UPDATE Beers
+PUT {{host}}/api/beers/5
+content-type: application/json
+
+{
+    "name": "Cara",
+    "type": "Blond"
+}
+
+###
+
+//DELETE Beers
+DELETE  {{host}}/api/beers/3

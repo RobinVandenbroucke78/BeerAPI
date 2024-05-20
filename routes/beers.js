@@ -51,7 +51,6 @@ router.put('/:id', (req, res) => {
     }
     beer.name = req.body.name;
     beer.type = req.body.type;
-    beers.push(beer);
     res.send(beer);
 
 });
