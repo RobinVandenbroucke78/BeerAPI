@@ -25,12 +25,24 @@ router.get('/:id', (req, res) => {
     res.send(beer);
 })
 
-
+//post
+router.post('/', (req, res) => {
+    const result = validateBeers(req.body);
+    if (result.error) {
+        res.status(400).send(result.error.details[0].message);
+        }
+    const beer = {
+        id: beers.length + 1,
+        name: req.body.name,
+        type: req.body.type,
+    }
+    res.send(beer);
+});
 
 function validateBeers(beer){
     const schema = Joi.object({
         name: Joi.string().min(3).required(),
-        type: Joi.string().min(3).required()
+        type: Joi.string().min(3)
     })
     return schema.validate(beer);
 }
