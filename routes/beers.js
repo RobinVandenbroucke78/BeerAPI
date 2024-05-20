@@ -36,6 +36,7 @@ router.post('/', (req, res) => {
         name: req.body.name,
         type: req.body.type,
     }
+    beers.push(beer);
     res.send(beer);
 });
 
