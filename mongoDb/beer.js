@@ -55,3 +55,12 @@ async function updateBeer(id){
 
 updateBeer(beer._id);
 
+async function deleteCourse(id){
+    const result = await Course.findByIdAndDelete(id)
+    console.log(result);
+}
+
+async function deleteAll(){
+    const result = await Course.deleteMany();
+    console.log(result);
+}
