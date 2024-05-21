@@ -19,6 +19,7 @@ const beer = new Beers({
     type: "Blond"
 })
 
+//createBeers
 async function createBeer(beer){
     const newBeer = new Beers(beer);
     const result = await newBeer.save();
@@ -26,6 +27,15 @@ async function createBeer(beer){
 
 createBeer(beer);
 
+//Get all Beers
+async function getBeers(){
+    const beers = await Beers
+    .find()
+    .limit(2)
+    console.log(beers);
+}
+
+getBeers();
 
 function validateBeers(beer){
     const schema = Joi.object({
