@@ -1,7 +1,5 @@
-const mongoose = require('mongoose')
-const express = require('express');
+const mongoose = require('mongoose');
 const Joi = require('joi');
-const router = express.Router();
 
 mongoose.connect('mongodb+srv://robinvandenbroucke2:MaMTsORgBD24erKY@node.ckpcixi.mongodb.net/')
     .then(() => console.log('Connected to DB'))
@@ -16,6 +14,11 @@ const Beers = mongoose.model('Beers', beerSchema)
 
 const beer = new Beers({
     name: "Heineken",
+    type: "Blond"
+})
+
+const beeri = new Beers({
+    name: "Stella",
     type: "Blond"
 })
 
@@ -37,10 +40,18 @@ async function getBeers(){
 
 getBeers();
 
-function validateBeers(beer){
-    const schema = Joi.object({
-        name: Joi.string().min(3).required(),
-        type: Joi.string().min(3)
-    })
-    return schema.validate(beer);
+async function updateBeer(id){
+    const beers = await Beers.findByIdAndUpdate(
+        {_id: id},
+        {
+            $set: {
+                name: beeri.name,
+                type: beeri.type
+            }
+        },{new: true}
+    );
+    console.log(beers)
 }
+
+updateBeer(beer._id);
+
