@@ -8,13 +8,23 @@ mongoose.connect('mongodb+srv://robinvandenbroucke2:MaMTsORgBD24erKY@node.ckpcix
     .catch(err => console.log("Error connecting to DB: " + err));
 
 const beerSchema = new mongoose.Schema({
-    id: Int32Array,
     name: String,
     type: String,
 })
 
-const Beers = mongoose.model('Beers', courseSchema)
+const Beers = mongoose.model('Beers', beerSchema)
 
+const beer = new Beers({
+    name: "Heineken",
+    type: "Blond"
+})
+
+async function createBeer(beer){
+    const newBeer = new Beers(beer);
+    const result = await newBeer.save();
+}
+
+createBeer(beer);
 
 
 function validateBeers(beer){
