@@ -47,7 +47,17 @@ async function getBeers(){
     console.log(beers);
 }
 
-getBeers();
+//Get beers by alocohol
+async function getBeersByAlcohol(alcohol){
+    const beers = await Beers
+    .find({alcohol: {$gte: alcohol}})
+    console.log(beers);
+}
+
+getBeersByAlcohol(beer.alcohol);
+
+
+//getBeers();
 
 async function updateBeer(id){
     const beers = await Beers.findByIdAndUpdate(
@@ -62,7 +72,7 @@ async function updateBeer(id){
     console.log(beers)
 }
 
-updateBeer(beer._id);
+//updateBeer(beer._id);
 
 async function deleteCourse(id){
     const result = await Course.findByIdAndDelete(id)
