@@ -37,8 +37,8 @@ async function createBeer(beer){
     const result = await newBeer.save();
 }
 
-createBeer(beer);
-createBeer(beeri);
+//createBeer(beer);
+//createBeer(beeri);
 
 //Get all Beers
 async function getBeers(){
@@ -49,23 +49,35 @@ async function getBeers(){
 }
 
 //Get beers by alocohol
-async function getBeersByAlcohol(alcohol){
-    const beers = await Beers
-    .find({alcohol: {$gte: alcohol}})
-    console.log(beers);
+async function getBeersByAlcohol(alcohols){
+    if (typeof alcohols!== 'number') {
+        throw new Error('alcohol must be a number');
+      }
+    
+      const beers = await Beers.find({ alcohol: alcohols });
+      if (beers.length === 0) {
+        console.log('No beers found with alcohol level greater than or equal to ' + alcohols);
+      }
+      console.log("------------------Alcohol--------------" + "\n" + beers);
 }
 
-getBeersByAlcohol(beer.alcohol);
+getBeersByAlcohol(5);
 
 
 //Get all beers by price
-async function getBeersByPrice(price){
-    const beers = await Beers
-    .find({price: {$gte: price}})
+async function getBeersByPrice(prices){
+    if (typeof prices!== 'number') {
+        throw new Error('price must be a number');
+      }
+    
+      const beers = await Beers.find({ price: prices });
+      if (beers.length === 0) {
+        console.log('No beers found with price greater than or equal to ' + prices);
+      }
     console.log("--------------------Price---------------" + "\n" + beers);
 }
 
-getBeersByPrice(beer.price);
+getBeersByPrice(1.2);
 
 //getBeers();
 
