@@ -8,18 +8,27 @@ mongoose.connect('mongodb+srv://robinvandenbroucke2:MaMTsORgBD24erKY@node.ckpcix
 const beerSchema = new mongoose.Schema({
     name: String,
     type: String,
+    alcohol: Number,
+    content: Number,
+    price: Number,
 })
 
 const Beers = mongoose.model('Beers', beerSchema)
 
 const beer = new Beers({
     name: "Heineken",
-    type: "Blond"
+    type: "Blond",
+    alcohol: 5,
+    content: 25,
+    price: 1.20
 })
 
 const beeri = new Beers({
     name: "Stella",
-    type: "Blond"
+    type: "Blond",
+    alcohol: 5,
+    content: 25,
+    price: 1.20
 })
 
 //createBeers
