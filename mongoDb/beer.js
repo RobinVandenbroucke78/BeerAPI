@@ -38,6 +38,7 @@ async function createBeer(beer){
 }
 
 createBeer(beer);
+createBeer(beeri);
 
 //Get all Beers
 async function getBeers(){
@@ -56,6 +57,15 @@ async function getBeersByAlcohol(alcohol){
 
 getBeersByAlcohol(beer.alcohol);
 
+
+//Get all beers by price
+async function getBeersByPrice(price){
+    const beers = await Beers
+    .find({price: {$gte: price}})
+    console.log("--------------------Price---------------" + "\n" + beers);
+}
+
+getBeersByPrice(beer.price);
 
 //getBeers();
 
