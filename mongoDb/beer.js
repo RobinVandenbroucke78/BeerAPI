@@ -61,7 +61,7 @@ async function getBeersByAlcohol(alcohols){
       console.log("------------------Alcohol--------------" + "\n" + beers);
 }
 
-getBeersByAlcohol(5);
+//getBeersByAlcohol(5);
 
 
 //Get all beers by price
@@ -77,22 +77,48 @@ async function getBeersByPrice(prices){
     console.log("--------------------Price---------------" + "\n" + beers);
 }
 
-getBeersByPrice(1.2);
+//getBeersByPrice(1.2);
 
 //getBeers();
 
-async function updateBeer(id){
-    const beers = await Beers.findByIdAndUpdate(
-        {_id: id},
+async function updateBeer(nameBeer, Newname, Newtype, Newalcohol, Newcontent, Newprice){
+    const beers = await Beers.findOneAndUpdate(
+        { name: nameBeer},
         {
             $set: {
-                name: beeri.name,
-                type: beeri.type
+                name: Newname,
+                type: Newtype,
+                alcohol: Newalcohol,
+                content: Newcontent,
+                price: Newprice
             }
         },{new: true}
     );
     console.log(beers)
 }
+
+updateBeer("Heineken", "Leffe", "Bruin", 6, 33, 1.50);
+
+//Update price van beer
+async function updatePrice(nameBeer,newPrice){
+    if (typeof newPrice!== 'number') {
+        throw new Error('newPrice must be a number');
+      }
+    
+      const beer = await Beers.findOneAndUpdate(
+        { name: nameBeer },
+        {
+          $set: {
+            price: newPrice
+          }
+        },
+        { new: true }
+      );
+      console.log("Update price: " + beer);
+      return beer;
+}
+
+updatePrice("Stella", 1.40)
 
 //updateBeer(beer._id);
 
