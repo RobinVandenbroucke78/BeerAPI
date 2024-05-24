@@ -9,6 +9,18 @@ get {{base_URL}}/{{objId1}}
 Content-Type: application/json
 
 ###
+
+@alcohol=5
+get {{{base_URL}}}/{{objId1}}/{{alcohol}}
+Content-Type: application/json
+
+###
+
+@price=1.2
+get {{{base_URL}}}/{{objId1}}/{{price}}
+Content-Type: application/json
+
+###
 post {{base_URL}}
 Content-Type: application/json
 
