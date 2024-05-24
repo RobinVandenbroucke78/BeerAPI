@@ -2,6 +2,7 @@ const {User, validate} = require('../models/user');
 const mongoose = require('mongoose');
 const express = require('express');
 const _ = require('lodash');
+const bcrypt = require('bcrypt');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
@@ -14,5 +15,7 @@ res.status(400).send(error.details[0].message);
             ['name','email','password']));
             await user.save();
             res.send(_.pick(user, ['_id','name', 'email']));
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
 });
 module.exports = router;
