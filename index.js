@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
 const beers = require('./routes/beers');
+const breweries = require('./routes/breweries');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
 const express = require('express');
@@ -12,6 +13,7 @@ mongoose.connect('mongodb+srv://robinvandenbroucke2:MaMTsORgBD24erKY@node.ckpcix
 
 app.use(express.json());
 app.use('/api/beers', beers);
+app.use('/api/breweries', breweries);
 app.use('/api/users', users);
 app.use('/api/auth', auth);
 
