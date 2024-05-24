@@ -10,7 +10,7 @@ mongoose.connect('mongodb+srv://robinvandenbroucke2:MaMTsORgBD24erKY@node.ckpcix
   .catch(err => console.error('Could not connect to MongoDB...'));
 
 app.use(express.json());
-app.use('/api/beer', beers);
+app.use('/api/beers', beers);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
