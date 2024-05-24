@@ -1,6 +1,8 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
-const Beer = mongoose.model('beer', new mongoose.Schema({
+const { Brewery } = require('./brewery');
+
+const Beer = mongoose.model('Beer', new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -30,6 +32,10 @@ const Beer = mongoose.model('beer', new mongoose.Schema({
         required: true,
         minlength: 3,
         maxlength: 4
+    },
+    brewery: {
+        type: Brewery,
+        required: true,
     }
 }));
 
@@ -40,7 +46,8 @@ function validateBeer(beer) {
         type: Joi.string().min(5).max(255).required(),
         alcohol: Joi.number().min(1).max(3).required(),
         content: Joi.number().min(2).max(4).required(),
-        price: Joi.number().min(3).max(4).required()
+        price: Joi.number().min(3).max(4).required(),
+        brewery: Joi.object().required()
     });
     return schema.validate(beer);
 }
