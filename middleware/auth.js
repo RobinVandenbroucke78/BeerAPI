@@ -1,12 +1,20 @@
-const express = require('express');
-const app = express();
-const path = require('path');
+//authorisatiemiddleware
 
-app.use(express.static(path.join(path.resolve())));
+const jwt = require('jsonwebtoken');
+const config = require('config');
 
-// Serve the "index.html" file for the root route
-app.get('/', (req, res) => {
-  res.sendFile(path.join(path.resolve(), 'index.html'));
-});
+module.exports = function(req, res, next){
 
-app.listen(3000);
+    const token = req.header('x-auth-token');
+    if (!token) return res.status(401).send('Access denied, token not provided');
+
+    try {
+    const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
+    req.user = decoded;
+    next();
+}
+catch(ex){
+    res.status(400).send('Invalid token');
+}   
+
+}

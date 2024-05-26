@@ -1,39 +1,48 @@
-const Joi = require('joi-oid');
+const Joi = require('joi');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 
-const UserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        min: 1,
-        max: 100,
-        unique: true
+        minlength: 3,
+        maxlength: 50
     },
     email: {
         type: String,
         required: true,
-        min: 1,
-        max: 100,
+        minlength: 3,
+        maxlength: 255,
         unique: true
     },
     password: {
         type: String,
         required: true,
-        min: 1,
-        max: 100
-    }
+        minlength: 5,
+        maxlength: 1024
+    },
+    isAdmin: Boolean
 });
 
-const UserModel = mongoose.model('user', UserSchema);
+userSchema.methods.generateAuthToken = function() {
+    const token = jwt.sign({_id: this._id, isAdmin: this.isAdmin}, config.get('jwtPrivateKey'),{ expiresIn: '1h' });
+    return token;
+}
 
-const ValidateUser = (user) => {
+const User  =  mongoose.model('User', userSchema);
+
+
+
+function validateUser(user) {
     const schema = Joi.object({
-        name: Joi.string().min(1).max(100).required(),
-        email: Joi.string().min(1).max(100).required().email(),
-        password: Joi.string().min(1).max(100).required()
+        name: Joi.string().min(3).max(50).required(),
+        email: Joi.string().min(5).max(255).email().required(),
+        password: Joi.string().min(5).max(1024).required(),
     });
-
     return schema.validate(user);
 }
 
-module.exports = { UserModel, ValidateUser };
+exports.User = User;
+exports.validate = validateUser;

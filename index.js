@@ -1,4 +1,5 @@
 const Joi = require('joi');
+Joi.objectId = require('joi-objectid')(Joi);
 const mongoose = require('mongoose');
 const beers = require('./routes/beers');
 const breweries = require('./routes/breweries');
@@ -6,6 +7,7 @@ const users = require('./routes/users');
 const auth = require('./routes/auth');
 const express = require('express');
 const app = express();
+const config = require('config');
 
 mongoose.connect('mongodb+srv://robinvandenbroucke2:MaMTsORgBD24erKY@node.ckpcixi.mongodb.net/')
   .then(() => console.log('Connected to MongoDB...'))
