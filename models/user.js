@@ -1,37 +1,39 @@
-const Joi = require('joi');
+const Joi = require('joi-oid');
 const mongoose = require('mongoose');
 
-const User = mongoose.model('User', new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        minlength: 5,
-        maxlength: 50
+        min: 1,
+        max: 100,
+        unique: true
     },
     email: {
         type: String,
         required: true,
-        minlength: 5,
-        maxlength: 255,
+        min: 1,
+        max: 100,
         unique: true
     },
-        password: {
+    password: {
         type: String,
         required: true,
-        minlength: 5,
-        maxlength: 1024
+        min: 1,
+        max: 100
     }
-}));
+});
 
-function validateUser(user) {
+const UserModel = mongoose.model('user', UserSchema);
+
+const ValidateUser = (user) => {
     const schema = Joi.object({
-        name: Joi.string().min(5).max(50).required(),
-        email: Joi.string().min(5).max(255).email().required(),
-        password: Joi.string().min(5).max(255).required()
+        name: Joi.string().min(1).max(100).required(),
+        email: Joi.string().min(1).max(100).required().email(),
+        password: Joi.string().min(1).max(100).required()
     });
-    
+
     return schema.validate(user);
 }
 
-exports.User = User;
-exports.validate = validateUser;
+module.exports = { UserModel, ValidateUser };
