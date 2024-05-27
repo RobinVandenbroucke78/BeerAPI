@@ -1,0 +1,44 @@
+# USER CALLS #
+# Variables
+@base_URL=http://localhost:3000/api/users
+
+get {{base_URL}}
+
+###
+@objId1=6652e5fd22e69516f9f56a09
+get {{base_URL}}/{{objId1}}
+Content-Type: application/json
+
+###
+post {{base_URL}}
+Content-Type: application/json
+
+{
+    "name": "Gebruiker5",
+    "email": "gebruiker5@gmail.com",
+    "password": "12345"
+}
+
+###
+@objId2=6277bab5b675f91753111fd9
+put {{base_URL}}/{{objId2}}
+Content-Type: application/json
+
+{
+    "title": "Book6", 
+    "genreId": "626fb3810a6e8b97afc297b8",
+    "numberInStock": 10,
+    "dailyRentalRate": 100
+}
+
+###
+@objId3=6277bab5b675f91753111fd9
+delete {{base_URL}}/{{objId3}}
+Content-Type: application/json
+
+
+###
+
+@authToken=xeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjM4OTBkYzQyYmJjYjZiNjQwNDAzYTQiLCJpYXQiOjE3MTU1ODc1NzYsImV4cCI6MTcxNTU5MTE3Nn0.uX20StaNdR9PJqIxP21TN2AB6FSmM9N3oI7OUAX9yGc
+get {{base_URL}}/me
+x-auth-token: {{authToken}}

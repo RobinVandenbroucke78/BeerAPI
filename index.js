@@ -1,5 +1,4 @@
-const Joi = require('joi');
-Joi.objectId = require('joi-objectid')(Joi);
+const Joi = require('joi-oid');
 const mongoose = require('mongoose');
 const beers = require('./routes/beers');
 const breweries = require('./routes/breweries');
