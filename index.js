@@ -18,5 +18,9 @@ app.use('/api/breweries', breweries);
 app.use('/api/users', users);
 app.use('/api/auth', auth);
 
+if (!config.get('jwtPrivateKey')){
+  console.error('FATAL ERROR: jwtPrivateKey not defined');
+  process.exit(1);
+}
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
