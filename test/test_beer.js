@@ -1,10 +1,26 @@
 const assert = require('assert');
+const { saveBeer } = require('../models/beer');
 
-describe('Basic test', function () {
+describe('Test on beer not in Db', function () {
   describe('check on beer', function () {
-    it('should equal 15 when 5 is multiplied by 3', function () {
-        var result = 5*3;
-        assert.equal(result, 15);
+    it('should succesfully save a Beer', async function () {
+      const beerData = {
+        name: 'Stella',
+        type: 'Blond',
+        alcohol: 5,
+        content: 25,
+        price: 1.4
+      }
+      saveBeer(beerData, (savedBeer) => {
+        assert.equal(savedBeer.name, beerData.name);
+        assert.equal(savedBeer.type, beerData.type);
+        assert.equal(savedBeer.alcohol, beerData.alcohol);
+        assert.equal(savedBeer.content, beerData.content);
+        assert.equal(savedBeer.price, beerData.price);
+        done();
+      });
     });
   });
 });
+
+

@@ -45,6 +45,20 @@ function validateBeer(beer) {
         price: Joi.number().min(3).max(4).required()
     });
     return schema.validate(beer);
+};
+
+async function saveBeer({ name, type, alcohol, content, price }) {
+    const existingBeer = await BeerModel.findOne({ name });
+    if (existingBeer) {
+      throw new Error("Beer already exists");
+    }
+    const beer = new BeerModel({ name, type, alcohol, content, price });
+    const error = beer.validateSync();
+    if (error) {
+      throw error;
+    }
+    await beer.save();
+    return beer;
 }
 
-module.exports = { BeerModel, validateBeer };
+module.exports = { BeerModel, validateBeer, saveBeer };
