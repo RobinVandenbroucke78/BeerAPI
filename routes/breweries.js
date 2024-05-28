@@ -1,68 +1,86 @@
 const express = require('express');
-const { validateBrewery } = require('../models/brewery');
+const { BreweryModel, validateBrewery } = require('../models/brewery');
 const router = express.Router();
 
-const breweries = [
-    {id: 1, name: 'Brouwer Henk', location: 'Zwevegem'},
-    {id: 2, name: 'Brouwerij De Ranke', location: 'Dottignies'},
-    {id: 3, name: 'Brouwerij De Struise Brouwers', location: 'Oostvleter'},
-    {id: 4, name: 'Brouwerij De Dolle Brouwers', location: 'Esen'},
-    {id: 5, name: 'Brouwerij De Leite', location: 'Kortrijk'},
-    {id: 6, name: 'Brouwerij De Late', location: 'Kortrijk'}
-];
+router.post('/', async (req, res) => {
+    const { error } = validateBrewery(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
 
-// Get all breweries
-router.get('/', (req, res) => {
-    res.send(breweries);
-});
-
-// Create a new brewery
-router.post('/', (req, res) => {
-    const result = validateBrewery(req.body);
-    if (result.error) {
-        res.status(400).send(result.error.details[0].message);
-        }
-    const brewery = {
-        id: breweries.length + 1,
+    let brewery = new BreweryModel({
         name: req.body.name,
-        location: req.body.type,
-    }
-    breweries.push(brewery);
-    res.send(brewery);
+        location: req.body.location
+    });
+
+    try {
+        brewery = await brewery.save();
+        res.status(200).send(brewery);
+    } catch (err) {
+        res.status(400).send(err.message);
+    }  
 });
 
-//Update brewery
-router.put('/:id', (req, res) => {
-    const brewery = breweries.find(brewery => brewery.id === parseInt(req.params.id));
-    if (!brewery) {
-        res.status(404).send('brewery not found');
+router.get('/', async (req, res) => {
+    try {
+        const breweries = await BreweryModel.find();
+        res.status(302).send(breweries);
+    } catch (err) {
+        res.status(400).send(err.message);
     }
-    const result = validateBrewery(req.body);
-    if (result.error) {
-        res.status(400).send(result.error.details[0].message);
-    }
-    brewery.name = req.body.name;
-    brewery.location = req.body.type;
-    res.send(brewery);
-
 });
 
-//Delete brewery
-router.delete('/:id', (req, res) => {
-    const brewery = breweries.find(brewery => brewery.id === parseInt(req.params.id));
-    if (!brewery) {
-        res.status(404).send('brewery not found');
+router.patch('/:id', async (req, res) => {
+    const breweryId = req.params.id;
+    const updateFields = req.body;
+
+    try {
+        const updatedBrewery = await BreweryModel.findByIdAndUpdate(
+            breweryId,
+            { $set: updateFields },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedBrewery) {
+            return res.status(404).send('Brewery not found');
+        }
+
+        res.status(200).send(updatedBrewery);
+    } catch (err) {
+        res.status(400).send(err.message);
     }
-    const index = breweries.indexOf(brewery);
-    breweries.splice(index, 1);
-    res.send(brewery);
 });
 
-//Delete all beers
-router.delete('/', (req, res) => {
-    breweries.splice(0, breweries.length);
-    res.send(breweries);
+router.put('/:id', async (req, res) => {
+    const { error } = validateBrewery(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const breweryId = req.params.id;
+    const updateFields = req.body;
+
+    try {
+        const updatedBrewery = await BreweryModel.findByIdAndUpdate(
+            breweryId,
+            { $set: updateFields },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedBrewery) {
+            return res.status(404).send('User not found');
+        }
+
+        res.status(200).send(updatedBrewery);
+    } catch (err) {
+        res.status(400).send(err.message);
+    }
 });
 
-// Export the router
+router.delete('/:id', async (req, res) => {
+    try {
+        const brewery = await BreweryModel.findByIdAndDelete(req.params.id);
+        if (!brewery) return res.status(404).send('Brewery not found.');
+        res.status(200).send(brewery);
+    } catch (err) {
+        res.status(404).send(err.message);
+    }
+});
+
 module.exports = router;

@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
 
-const Brewery = mongoose.model('Brewery', new mongoose.Schema({
+const BrewerySchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -20,7 +20,9 @@ const Brewery = mongoose.model('Brewery', new mongoose.Schema({
         minlength: 8,
         maxlength: 8
     }
-}));
+});
+
+const BreweryModel = mongoose.model('brewery', BrewerySchema);
 
 
 function validateBrewery(brewery) {
@@ -32,5 +34,4 @@ function validateBrewery(brewery) {
     return schema.validate(brewery);
 }
 
-exports.Brewery = Brewery;
-exports.validate = validateBrewery;
+module.exports = { BreweryModel, validateBrewery };
