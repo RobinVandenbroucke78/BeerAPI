@@ -1,8 +1,7 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
-const { Brewery } = require('./brewery');
 
-const Beer = mongoose.model('Beer', new mongoose.Schema({
+const BeerSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -32,13 +31,10 @@ const Beer = mongoose.model('Beer', new mongoose.Schema({
         required: true,
         minlength: 3,
         maxlength: 4
-    },
-    brewery: {
-        type: Brewery,
-        required: true,
     }
-}));
+});
 
+const BeerModel = mongoose.model('beer', BeerSchema);
 
 function validateBeer(beer) {
     const schema = Joi.object({
@@ -46,11 +42,9 @@ function validateBeer(beer) {
         type: Joi.string().min(5).max(255).required(),
         alcohol: Joi.number().min(1).max(3).required(),
         content: Joi.number().min(2).max(4).required(),
-        price: Joi.number().min(3).max(4).required(),
-        brewery: Joi.object().required()
+        price: Joi.number().min(3).max(4).required()
     });
     return schema.validate(beer);
 }
 
-exports.Beer = Beer;
-exports.validate = validateBeer;
+module.exports = { BeerModel, validateBeer };

@@ -1,84 +1,99 @@
 const express = require('express');
-const Joi = require('joi');
+const { BeerModel , validateBeers } = require('../models/beer');
 const router = express.Router();
 
-const beers = [
-    {id:1, name: 'Stella Artois', type: 'Blond'},
-    {id:2, name: 'Heineken', type: 'Blond'},
-    {id:3, name: 'Leffe', type: 'Blond'},
-    {id:4, name: 'Duvel', type: 'Blond'},
-    {id:5, name: 'Shimay', type: 'Brown'},
-    {id:6, name: 'Guinness', type: 'Brown'},
-];
-
-//Read beers
-router.get('/', (req, res) => {
-    res.send(beers);
+router.get('/', async (req, res) => {
+    try {
+        const beers = await BeerModel.find();
+        res.status(302).send(beers);
+    } catch (err) {
+        res.status(400).send(err.message);
+    }
 });
 
-//geef beers terug met id: ??
-router.get('/:id', (req, res) => {
-    const beer = beers.find(beer => beer.id === parseInt(req.params.id));
-    if (!beer) {
-        res.status(404).send('Beer not found');
+router.get('/:id', async (req, res) => {
+    try {
+        const beer = await BeerModel.findById(req.params.id);
+        if (!beer) return res.status(404).send('Beer not found.');
+        res.status(302).send(beer);
+    } catch (err) {
+        res.status(404).send(err.message);
     }
-    res.send(beer);
-})
+});
 
-//Create Beer
-router.post('/', (req, res) => {
-    const result = validateBeers(req.body);
-    if (result.error) {
-        res.status(400).send(result.error.details[0].message);
-        }
-    const beer = {
-        id: beers.length + 1,
+router.post('/', async (req, res) => {
+    const { error } = validateBeers(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    let beer = new BeerModel({
         name: req.body.name,
         type: req.body.type,
-    }
-    beers.push(beer);
-    res.send(beer);
+        alcohol: req.body.alcohol,
+        content: req.body.content,
+        price: req.body.price
+    });
+
+    try {
+        beer = await beer.save();
+        res.status(200).send(beer);
+    } catch (err) {
+        res.status(400).send(err.message);
+    }  
 });
 
-//Update beer
-router.put('/:id', (req, res) => {
-    const beer = beers.find(beer => beer.id === parseInt(req.params.id));
-    if (!beer) {
-        res.status(404).send('Beer not found');
-    }
-    const result = validateBeers(req.body);
-    if (result.error) {
-        res.status(400).send(result.error.details[0].message);
-    }
-    beer.name = req.body.name;
-    beer.type = req.body.type;
-    res.send(beer);
+router.patch('/:id', async (req, res) => {
+    const beerId = req.params.id;
+    const updateFields = req.body;
 
+    try {
+        const updatedBeer = await BeerModel.findByIdAndUpdate(
+            beerId,
+            { $set: updateFields },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedBeer) {
+            return res.status(404).send('User not found');
+        }
+
+        res.status(200).send(updatedBeer);
+    } catch (err) {
+        res.status(400).send(err.message);
+    }
 });
 
-//Delete beer
-router.delete('/:id', (req, res) => {
-    const beer = beers.find(beer => beer.id === parseInt(req.params.id));
-    if (!beer) {
-        res.status(404).send('Beer not found');
+router.put('/:id', async (req, res) => {
+    const { error } = validateBeers(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const beerId = req.params.id;
+    const updateFields = req.body;
+
+    try {
+        const updatedBeer = await BeerModel.findByIdAndUpdate(
+            beerId,
+            { $set: updateFields },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedBeer) {
+            return res.status(404).send('Beer not found');
+        }
+
+        res.status(200).send(updatedBeer);
+    } catch (err) {
+        res.status(400).send(err.message);
     }
-    const index = beers.indexOf(beer);
-    beers.splice(index, 1);
-    res.send(beer);
 });
 
-//Delete all beers
-router.delete('/', (req, res) => {
-    beers.splice(0, beers.length);
-    res.send(beers);
+router.delete('/:id', async (req, res) => {
+    try {
+        const beer = await BeerModel.findByIdAndDelete(req.params.id);
+        if (!beer) return res.status(404).send('Beer not found.');
+        res.status(200).send(beer);
+    } catch (err) {
+        res.status(404).send(err.message);
+    }
 });
-
-function validateBeers(beer){
-    const schema = Joi.object({
-        name: Joi.string().min(3).required(),
-        type: Joi.string().min(3)
-    })
-    return schema.validate(beer);
-}
 
 module.exports = router;
