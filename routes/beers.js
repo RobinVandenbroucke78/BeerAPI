@@ -128,6 +128,52 @@ router.post('/', async (req, res) => {
 });
 
 router.patch('/:id', async (req, res) => {
+/**
+ * @swagger
+ * /api/beers/{id}:
+ *   patch:
+ *     summary: Update a beer by ID
+ *     description: Update the details of a beer by providing the beer ID.
+ *     tags: [Beers]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         description: The ID of the Beer to be updated.
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       description: Updated Beer information
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               type:
+ *                 type: string
+ *               alcohol:
+ *                 type: integer
+ *               content:
+ *                 type: integer
+ *               price:
+ *                 type: float
+ *     responses:
+ *       200:
+ *         description: Successful update
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: 'Beer updated successfully'
+ *       404:
+ *         description: Beer not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: 'Beer not found'
+ */   
     const beerId = req.params.id;
     const updateFields = req.body;
 
@@ -149,6 +195,52 @@ router.patch('/:id', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
+    /**
+ * @swagger
+ * /api/beers/{id}:
+ *   put:
+ *     summary: Update a beer by ID
+ *     description: Update the details of a beer by providing the beer ID.
+ *     tags: [Beers]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         description: The ID of the Beer to be updated.
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       description: Updated Beer information
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               type:
+ *                 type: string
+ *               alcohol:
+ *                 type: integer
+ *               content:
+ *                 type: integer
+ *               price:
+ *                 type: float
+ *     responses:
+ *       200:
+ *         description: Successful update
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: 'Beer updated successfully'
+ *       404:
+ *         description: Beer not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: 'Beer not found'
+ */
     const { error } = validateBeer(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -173,6 +265,25 @@ router.put('/:id', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
+    /**
+ * @swagger
+ * /api/beers/{id}:
+ *   delete:
+ *     summary: Delete a beer by ID
+ *     tags: [Beers]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: The ID of the beer
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       204:
+ *         description: Beer deleted successfully
+ *       404:
+ *         description: Beer not found
+ */
     try {
         const beer = await BeerModel.findByIdAndDelete(req.params.id);
         if (!beer) return res.status(404).send('Beer not found.');
