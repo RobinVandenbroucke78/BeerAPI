@@ -4,37 +4,25 @@
 get {{base_URL}}
 
 ###
-@objId1=664db4df5bb239683733b6e3
+@objId1=664db4df5bb239683733b6e4
 get {{base_URL}}/{{objId1}}
 Content-Type: application/json
 
 ###
 
-@alcohol=5
-get {{{base_URL}}}/{{objId1}}/{{alcohol}}
-Content-Type: application/json
-
-###
-
-@price=1.2
-get {{{base_URL}}}/{{objId1}}/{{price}}
-Content-Type: application/json
-
-###
 post {{base_URL}}
 Content-Type: application/json
 
 {
     "name": "Heineken",
     "type": "Blond",
-    "alcohol": 5.0,
-    "content": 25.0,
-    "price": 1.5,
-
+    "alcohol": 5,
+    "content": 25,
+    "price": 1.5
 }
 
 ###
-@objId2=664db4df5bb239683733b6e4
+@objId2=66573d8cc68fbe57e782cf40
 put {{base_URL}}/{{objId2}}
 Content-Type: application/json
 
@@ -43,9 +31,10 @@ Content-Type: application/json
     "type": "Blond",
     "alcohol": 5.0,
     "content": 25.0,
-    "price": 1.2,
+    "price": 1.2
 }
 
 ###
-delete {{base_URL}}/{{{{objId2}}}}
+@objId3=665595a265d6061e2b38028d
+delete {{base_URL}}/{{objId2}}
 Content-Type: application/json
