@@ -1,5 +1,5 @@
 const express = require('express');
-const { BeerModel , validateBeers } = require('../models/beer');
+const { BeerModel , validateBeer } = require('../models/beer');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -33,6 +33,31 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
+    /**
+ * @swagger
+ * /api/beers/{id}:
+ *   get:
+ *     summary: Get a beers by ID
+ *     tags: [Beers]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: The ID of the beer
+ *         schema:
+ *           type: string
+ *         example:
+ *             658918e852a0131af4c0aab1
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             example:
+ *               data: [{}]
+ *       404:
+ *         description: Beer not found
+ */
     try {
         const beer = await BeerModel.findById(req.params.id);
         if (!beer) return res.status(404).send('Beer not found.');
@@ -43,7 +68,47 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const { error } = validateBeers(req.body);
+    /**
+ * @swagger
+ * /api/beers:
+ *   post:
+ *     summary: Create a new beer
+ *     tags: [Beers]
+ *     requestBody:
+ *       description: Beer object to be added
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               type:
+ *                 type: string
+ *               alcohol:
+ *                 type: integer
+ *               content:
+ *                 type: integer
+ *               price:
+ *                 type: float
+ *             example:
+ *                name: "Stella"
+ *                type: "Blond/Bruin"
+ *                alcohol: 4
+ *                content: 33
+ *                price: 1.4
+ *     responses:
+ *       201:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             example:
+ *               data: [{}]
+ *       400:
+ *         description: Invalid request
+ */
+    const { error } = validateBeer(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     let beer = new BeerModel({
@@ -84,7 +149,7 @@ router.patch('/:id', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-    const { error } = validateBeers(req.body);
+    const { error } = validateBeer(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     const beerId = req.params.id;

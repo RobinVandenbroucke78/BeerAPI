@@ -40,9 +40,9 @@ function validateBeer(beer) {
     const schema = Joi.object({
         name: Joi.string().min(5).max(50).required(),
         type: Joi.string().min(5).max(255).required(),
-        alcohol: Joi.number().min(1).max(3).required(),
-        content: Joi.number().min(2).max(4).required(),
-        price: Joi.number().min(3).max(4).required()
+        alcohol: Joi.number().min(1).max(8).required(),
+        content: Joi.number().min(2).max(33).required(),
+        price: Joi.number().min(1.2).max(2.6).required()
     });
     return schema.validate(beer);
 };
