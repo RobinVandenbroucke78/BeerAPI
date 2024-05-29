@@ -5,7 +5,7 @@
 get {{base_URL}}
 
 ###
-@objId1=6652e5fd22e69516f9f56a09
+@objId1=665346644b203c9dbebbf740
 get {{base_URL}}/{{objId1}}
 Content-Type: application/json
 
@@ -20,19 +20,18 @@ Content-Type: application/json
 }
 
 ###
-@objId2=6277bab5b675f91753111fd9
+@objId2=665740b99bf936b1f353cb9f
 put {{base_URL}}/{{objId2}}
 Content-Type: application/json
 
 {
-    "title": "Book6", 
-    "genreId": "626fb3810a6e8b97afc297b8",
-    "numberInStock": 10,
-    "dailyRentalRate": 100
+    "name": "Dirk Hostens", 
+    "email": "dirk.hostens@gmail.com",
+    "password": "12345"
 }
 
 ###
-@objId3=6277bab5b675f91753111fd9
+@objId3=665740b99bf936b1f353cb9f
 delete {{base_URL}}/{{objId3}}
 Content-Type: application/json
 
