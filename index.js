@@ -8,22 +8,43 @@ const website = require('./middleware/app');
 const express = require('express');
 const app = express();
 const config = require('config');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
 
 mongoose.connect('mongodb+srv://robinvandenbroucke2:MaMTsORgBD24erKY@node.ckpcixi.mongodb.net/Eindproject')
 .then(() => console.log('Connected to MongoDB...'))
 .catch(err => console.error('Could not connect to MongoDB...'));
 
+/*if (!config.get('jwtPrivateKey')){
+  console.error('FATAL ERROR: jwtPrivateKey not defined');
+  process.exit(1);
+}*/
+
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Student Management System',
+      version: '1.0.0',
+      description: 'Student Management System covered Create, Read, Update, and Delete operations using a Node.js API',
+    },
+    servers:[
+      {url:'http://localhost:3000/api/'}, //you can change you server url
+    ],
+  },
+
+  apis: ['./routes/*.js'], //you can change you swagger path
+};
+
+const specs = swaggerJsdoc(options);
 app.use(express.json());
 app.use('/api/beers', beers);
 app.use('/api/breweries', breweries);
 app.use('/api/users', users);
 app.use('/api/auth', auth);
 app.use('/', website);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
-/*if (!config.get('jwtPrivateKey')){
-  console.error('FATAL ERROR: jwtPrivateKey not defined');
-  process.exit(1);
-}*/
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
