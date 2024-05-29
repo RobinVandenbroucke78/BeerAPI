@@ -92,12 +92,9 @@ router.post('/', async (req, res) => {
  *                 type: integer
  *               price:
  *                 type: float
- *             example:
- *                name: "Stella"
- *                type: "Blond/Bruin"
- *                alcohol: 4
- *                content: 33
- *                price: 1.4
+ *               brewery:
+ *                  type: string
+ * 
  *     responses:
  *       201:
  *         description: Successful response
@@ -116,7 +113,8 @@ router.post('/', async (req, res) => {
         type: req.body.type,
         alcohol: req.body.alcohol,
         content: req.body.content,
-        price: req.body.price
+        price: req.body.price,
+        brewery: req.body.brewery
     });
 
     try {
@@ -160,6 +158,8 @@ router.patch('/:id', async (req, res) => {
  *                 type: integer
  *               price:
  *                 type: float
+ *               brewery:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Successful update
@@ -227,6 +227,8 @@ router.put('/:id', async (req, res) => {
  *                 type: integer
  *               price:
  *                 type: float
+ *               brewery:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Successful update

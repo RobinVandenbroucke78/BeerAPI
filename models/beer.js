@@ -31,6 +31,11 @@ const BeerSchema = new mongoose.Schema({
         required: true,
         minlength: 3,
         maxlength: 4
+    },
+    brewery: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Brewery', // Reference to the Brewery model
+        required: true
     }
 });
 
@@ -42,17 +47,18 @@ function validateBeer(beer) {
         type: Joi.string().min(5).max(255).required(),
         alcohol: Joi.number().min(1).max(8).required(),
         content: Joi.number().min(2).max(33).required(),
-        price: Joi.number().min(1.2).max(2.6).required()
+        price: Joi.number().min(1.2).max(2.6).required(),
+        brewery: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required() // ObjectId validation
     });
     return schema.validate(beer);
 };
 
-async function saveBeer({ name, type, alcohol, content, price }) {
+async function saveBeer({ name, type, alcohol, content, price, brewery }) {
     const existingBeer = await BeerModel.findOne({ name });
     if (existingBeer) {
       throw new Error("Beer already exists");
     }
-    const beer = new BeerModel({ name, type, alcohol, content, price });
+    const beer = new BeerModel({ name, type, alcohol, content, price, brewery });
     const error = beer.validateSync();
     if (error) {
       throw error;
