@@ -3,6 +3,27 @@ const { BeerModel , validateBeers } = require('../models/beer');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
+    /**
+ * @swagger
+ * /api/beers:
+ *   get:
+ *     summary: Get a list of all Beers
+ *     tags: [Beers]
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             example:
+ *               data: [{}]
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *          application/json:
+ *            example:
+ *             error:
+ *              message: "Bad Request"
+ */
     try {
         const beers = await BeerModel.find();
         res.status(302).send(beers);

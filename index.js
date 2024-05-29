@@ -20,31 +20,30 @@ mongoose.connect('mongodb+srv://robinvandenbroucke2:MaMTsORgBD24erKY@node.ckpcix
   process.exit(1);
 }*/
 
-const options = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Student Management System',
-      version: '1.0.0',
-      description: 'Student Management System covered Create, Read, Update, and Delete operations using a Node.js API',
-    },
-    servers:[
-      {url:'http://localhost:3000/api/'}, //you can change you server url
-    ],
-  },
-
-  apis: ['./routes/*.js'], //you can change you swagger path
-};
-
-const specs = swaggerJsdoc(options);
 app.use(express.json());
 app.use('/api/beers', beers);
 app.use('/api/breweries', breweries);
 app.use('/api/users', users);
 app.use('/api/auth', auth);
 app.use('/', website);
+const port = process.env.PORT || 3000;
+
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Beer API with Swagger',
+      version: '1.0.0',
+      description: 'covered Create, Read, Update, and Delete operations using a Node.js API',
+    },
+    servers:[
+      {url:`http://localhost:${port}`},
+    ],
+  },
+  apis: ['./routes/*.js'], 
+};
+
+const specs = swaggerJsdoc(options);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
-
-const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
