@@ -102,7 +102,8 @@ router.post('/', async (req, res) => {
 
     let brewery = new BreweryModel({
         name: req.body.name,
-        location: req.body.location
+        location: req.body.location,
+        yearStarted: req.body.yearStarted
     });
 
     try {
