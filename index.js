@@ -38,7 +38,7 @@ const options = {
       description: 'covered Create, Read, Update, and Delete operations using a Node.js API',
     },
     servers:[
-      {url:`https://beerapi-wgf2.onrender.com/${port}`},
+      {url:`https://beerapi-wgf2.onrender.com/`},
     ],
   },
   apis: ['./routes/*.js'], 
