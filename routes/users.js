@@ -1,6 +1,11 @@
 const express = require('express');
 const { UserModel, ValidateUser } = require('../models/user');
 const router = express.Router();
+const _ = require('lodash');
+const bcrypt = require('bcrypt');
+const config = require('config');
+const jwt = require('jsonwebtoken');
+const auth = require('../middleware/auth');
 
 router.get('/', async (req, res) => {
     /**
@@ -96,21 +101,23 @@ router.post('/', async (req, res) => {
  *       400:
  *         description: Invalid request
  */
-    const { error } = ValidateUser(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    const { error } = validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);   
 
-    let user = new UserModel({
+    let user = await User.findOne({ email: req.body.email });
+    if (user) res.status(400).send('User already registered.');
+
+    user = new User({
         name: req.body.name,
         email: req.body.email,
         password: req.body.password
     });
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
 
-    try {
-        user = await user.save();
-        res.status(200).send(user);
-    } catch (err) {
-        res.status(400).send(err.message);
-    }  
+    await user.save();
+    const token = user.generateAuthToken();
+    res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email']));
 });
 
 router.patch('/:id', async (req, res) => {
