@@ -7,7 +7,7 @@ const doc = {
         title: "SnookerPocket API with Swagger",
         description: "api description",
     },
-    host: `localhost:3000`,
+    host: `https://beerapi-wgf2.onrender.com`,
     basePath: "/",
     schemes: ['http'],
     consumes: ['application/json'],

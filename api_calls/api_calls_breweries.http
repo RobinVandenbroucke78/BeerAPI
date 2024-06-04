@@ -1,5 +1,5 @@
 # BREWERY CALLS #
-@base_URL=http://localhost:3000/api/breweries
+@base_URL=https://beerapi-wgf2.onrender.com//api/breweries
 
 get {{base_URL}}
 
