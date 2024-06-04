@@ -1,0 +1,43 @@
+# USER CALLS #
+# Variables
+@base_URL=http://localhost:3000/api/users
+
+get {{base_URL}}
+
+###
+@objId1=665346644b203c9dbebbf740
+get {{base_URL}}/{{objId1}}
+Content-Type: application/json
+
+###
+post {{base_URL}}
+Content-Type: application/json
+
+{
+    "name": "Gebruiker5",
+    "email": "gebruiker5@gmail.com",
+    "password": "12345"
+}
+
+###
+@objId2=665740b99bf936b1f353cb9f
+put {{base_URL}}/{{objId2}}
+Content-Type: application/json
+
+{
+    "name": "Dirk Hostens", 
+    "email": "dirk.hostens@gmail.com",
+    "password": "12345"
+}
+
+###
+@objId3=665740b99bf936b1f353cb9f
+delete {{base_URL}}/{{objId3}}
+Content-Type: application/json
+
+
+###
+
+@authToken=xeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjM4OTBkYzQyYmJjYjZiNjQwNDAzYTQiLCJpYXQiOjE3MTU1ODc1NzYsImV4cCI6MTcxNTU5MTE3Nn0.uX20StaNdR9PJqIxP21TN2AB6FSmM9N3oI7OUAX9yGc
+get {{base_URL}}/me
+x-auth-token: {{authToken}}

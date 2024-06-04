@@ -1,0 +1,36 @@
+# BREWERY CALLS #
+@base_URL=http://localhost:3000/api/breweries
+
+get {{base_URL}}
+
+###
+@objId1=6655923e65d6061e2b380284
+get {{base_URL}}/{{objId1}}
+Content-Type: application/json
+
+###
+
+post {{base_URL}}
+Content-Type: application/json
+
+{
+    "name": "Brouwerij VIVES",
+    "location": "Kortrijk",
+    "yearStarted": "1999-02-17"
+}
+
+###
+@objId2=6655926165d6061e2b380285
+put {{base_URL}}/{{objId2}}
+Content-Type: application/json
+
+{
+    "name": "Brouwerij VIVES",
+    "location": "Kortrijk",
+    "yearStarted": "1999-02-17"
+}
+
+###
+@objId3=665592d765d6061e2b380289
+delete {{base_URL}}/{{objId3}}
+Content-Type: application/json

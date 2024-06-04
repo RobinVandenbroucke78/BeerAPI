@@ -1,0 +1,42 @@
+# BEER CALLS #
+@base_URL=http://localhost:3000/api/beers
+
+get {{base_URL}}
+
+###
+@objId1=664db4df5bb239683733b6e4
+get {{base_URL}}/{{objId1}}
+Content-Type: application/json
+
+###
+
+post {{base_URL}}
+Content-Type: application/json
+
+{
+    "name": "Heineken",
+    "type": "Blond",
+    "alcohol": 5,
+    "content": 25,
+    "price": 1.5,
+    "brewery": "6655923e65d6061e2b380284"
+}
+
+###
+@objId2=66572dcc61bad50aad2cdd58
+put {{base_URL}}/{{objId2}}
+Content-Type: application/json
+
+{
+    "name": "Stella",
+    "type": "Blond",
+    "alcohol": 5.0,
+    "content": 25.0,
+    "price": 1.2,
+    "brewery": "6655926165d6061e2b380285"
+}
+
+###
+@objId3=665595a265d6061e2b38028d
+delete {{base_URL}}/{{objId2}}
+Content-Type: application/json
