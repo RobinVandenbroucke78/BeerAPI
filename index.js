@@ -1,13 +1,14 @@
-const Joi = require('joi-oid');
+const http = require('http');
+const express = require('express');
+const app = express();
+const Joi = require('joi');
 const mongoose = require('mongoose');
+
 const beers = require('./routes/beers');
 const breweries = require('./routes/breweries');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
 const website = require('./middleware/app');
-const express = require('express');
-const app = express();
-const config = require('config');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 
