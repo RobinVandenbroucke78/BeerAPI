@@ -252,7 +252,7 @@ router.delete('/:id', async (req, res) => {
  *         required: true
  *         description: The ID of the brewery
  *         schema:
- *           type: integer
+ *           type: string
  *     responses:
  *       204:
  *         description: brewery deleted successfully
