@@ -107,7 +107,7 @@ router.post('/', async (req, res) => {
     let user = await UserModel.findOne({ email: req.body.email });
     if (user) res.status(400).send('User already registered.');
 
-    user = new User({
+    user = new UserModel({
         name: req.body.name,
         email: req.body.email,
         password: req.body.password
