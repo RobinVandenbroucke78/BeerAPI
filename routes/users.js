@@ -112,10 +112,12 @@ router.post('/', async (req, res) => {
         email: req.body.email,
         password: req.body.password
     });
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(user.password, salt);
-
-    await user.save();
+    try {
+        user = await user.save();
+        res.status(200).send(user);
+    } catch (err) {
+        res.status(400).send(err.message);
+    }  
 });
 
 router.patch('/:id', async (req, res) => {
