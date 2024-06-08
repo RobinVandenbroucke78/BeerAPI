@@ -1,6 +1,6 @@
 # USER CALLS #
 # Variables
-@base_URL=https://beerapi-wgf2.onrender.com//api/users
+@base_URL=http://localhost:3000/api/users
 
 get {{base_URL}}
 

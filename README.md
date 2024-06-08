@@ -1,7 +1,40 @@
 Beer API
 
-live version: 
-live version swagger doc: 
+live version: https://beerapi-wgf2.onrender.com/
+live version swagger doc: https://beerapi-wgf2.onrender.com/api-docs/
+
+Documentatie Deployment:
+
+Heb mijn deployment gedaan via render: 
+
+![alt text](image.png)
+
+Dan maak je een nieuwe Web Service:
+
+![alt text](image-1.png)
+
+En dan connect je de github en deploy je de github:
+
+![alt text](image-2.png)
+
+![alt text](image-3.png)
+
+![alt text](image-8.png)
+
+Om connectie te hebben met MongoDB heb je een aantal stappen te doen:
+
+In MongoDB Atlas > Network Access: Voeg de 3 outbound ips toe, deze kan je vinden hier: 
+
+![alt text](image-5.png)
+
+![alt text](image-6.png)
+
+En in Render moet je nog jouw username en password van je mongodb connection string meegeven in de Environment:
+
+![alt text](image-7.png)
+
+
+
 
 Deze API biedt eindpunten voor het beheren van data met betrekking tot bieren, waaronder gebruikers en brouwerijen
 

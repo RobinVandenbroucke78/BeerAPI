@@ -101,7 +101,7 @@ router.post('/', async (req, res) => {
  *       400:
  *         description: Invalid request
  */
-    const { error } = validate(req.body);
+    const { error } = ValidateUser(req.body);
     if (error) return res.status(400).send(error.details[0].message);   
 
     let user = await User.findOne({ email: req.body.email });
