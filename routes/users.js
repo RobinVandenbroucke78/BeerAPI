@@ -265,7 +265,7 @@ router.delete('/:id', async (req, res) => {
  *         required: true
  *         description: The ID of the user
  *         schema:
- *           type: integer
+ *           type: string
  *     responses:
  *       204:
  *         description: User deleted successfully
